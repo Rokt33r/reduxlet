@@ -11,7 +11,7 @@ const ReduxletCreator = ({
   reducer = x => x,
   actions = {},
   mapStateToProps = state => state,
-  dispatchMapProps = dispatch => ({
+  dispatchMapProps = (dispatch, actions) => ({
     dispatch,
     actions: bindActionCreators(actions, dispatch)
   }),
@@ -50,7 +50,7 @@ const ReduxletCreator = ({
       buildState (ownProps) {
         return mergeProps(
           mapStateToProps(this.store.getState()),
-          dispatchMapProps(::this.dispatch),
+          dispatchMapProps(::this.dispatch, actions),
           ownProps
         )
       }
