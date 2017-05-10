@@ -23,7 +23,7 @@ const ReduxletCreator = ({
   devtool = false
 }) => {
   return (Component) => {
-    return class extends React.PureComponent {
+    class ReduxletWrapper extends React.PureComponent {
       constructor (props) {
         super(props)
         const composeEnhancers = (devtool && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
@@ -66,6 +66,11 @@ const ReduxletCreator = ({
         />
       }
     }
+
+    const componentName = Component.displayName || Component.name || 'Component'
+    ReduxletWrapper.displayName = `reduxlet(${componentName})`
+
+    return ReduxletWrapper
   }
 }
 

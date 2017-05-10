@@ -21,7 +21,7 @@ const actions = {
 const ReduxLetContainer = reduxlet({
   reducer,
   actions
-})(class extends React.PureComponent {
+})(class ReduxLetContainer extends React.PureComponent {
   render () {
     const { actions, count } = this.props
 
