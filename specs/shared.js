@@ -41,6 +41,14 @@ export const reducer = (state, action) => {
       return {
         ...state
       }
+    case actionTypes.UPDATE_MESSAGE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          message: action.payload
+        }
+      }
   }
   return state
 }

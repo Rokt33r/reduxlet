@@ -7,7 +7,9 @@
   "jsnext:main": "es/index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./examples/webpack.config.js",
-    "test": "jest",
+    "pretest": "npm run lint --quite",
+    "test": "jest --coverage",
+    "test:quick": "jest",
     "test:watch": "jest --watch",
     "lint": "standard"
   },
@@ -46,6 +48,14 @@
     "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.js?$": "babel-jest"
+    },
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
     }
   },
   "standard": {

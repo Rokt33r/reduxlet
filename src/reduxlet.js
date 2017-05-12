@@ -38,15 +38,15 @@ const ReduxletCreator = ({
     const areOwnPropsEqual = pure
       ? typeof options.areOwnPropsEqual === 'undefined' ? shallowEqual : options.areOwnPropsEqual
       : returnFalse
-    if (typeof areStatesEqual !== 'function') throw new TypeError('options.areOwnPropsEqual must be function.')
+    if (typeof areOwnPropsEqual !== 'function') throw new TypeError('options.areOwnPropsEqual must be function.')
     const areStatePropsEqual = pure
       ? typeof options.areStatePropsEqual === 'undefined' ? shallowEqual : options.areStatePropsEqual
       : returnFalse
-    if (typeof areStatesEqual !== 'function') throw new TypeError('options.areStatePropsEqual must be function.')
+    if (typeof areStatePropsEqual !== 'function') throw new TypeError('options.areStatePropsEqual must be function.')
     const areMergedPropsEqual = pure
       ? typeof options.areMergedPropsEqual === 'undefined' ? shallowEqual : options.areMergedPropsEqual
       : returnFalse
-    if (typeof areStatesEqual !== 'function') throw new TypeError('options.areMergedPropsEqual must be function.')
+    if (typeof areMergedPropsEqual !== 'function') throw new TypeError('options.areMergedPropsEqual must be function.')
 
     const compose = (devtool && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || pureCompose
 
