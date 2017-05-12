@@ -23,9 +23,9 @@ const ReduxletCreator = ({
   }),
   mergeProps = (stateProps, dispatchProps, ownProps) => ({...stateProps, ...dispatchProps, ...ownProps}),
   enhancers = [],
-  middleware = [],
-  didMount = () => {},
-  willUnmount = () => {},
+  middlewares = [],
+  didMount = store => {},
+  willUnmount = store => {},
   options = {},
   devtool = false
 } = {}) => {
@@ -59,21 +59,22 @@ const ReduxletCreator = ({
             defaultState,
             compose(
               ...enhancers,
-              applyMiddleware(...middleware)
+              applyMiddleware(...middlewares)
             )
           )
           : props.store
 
         this.dispatchMapProps = dispatchMapProps(::this.dispatch, actions)
-        this.state = this.forgeState(props, this.store.getState())
+        const mappedStateProps = this.prevStateProps = mapStateToProps(this.store.getState())
+        this.state = this.forgeState(mappedStateProps, props)
       }
 
       componentDidMount () {
-        didMount(this.store)
+        didMount.call(this, this.store)
       }
 
       componentWillUnmount () {
-        willUnmount(this.store)
+        willUnmount.call(this, this.store)
       }
 
       componentWillReceiveProps (nextProps) {
@@ -81,18 +82,12 @@ const ReduxletCreator = ({
         if (areOwnPropsEqual(nextProps, this.props)) {
           return
         }
-        this.setState(this.forgeState(nextProps, this.store.getState(), true))
+
+        const newState = this.forgeState(this.prevStateProps, nextProps)
+        this.tryUpdate(newState)
       }
 
-      forgeState (ownProps, storeState, didOwnPropsChanged = false) {
-        const mappedStateProps = mapStateToProps(storeState)
-        // Check stateProps (Shallow Equal by default)
-        // If ownProps changed, merge props anyway
-        if (!didOwnPropsChanged && areStatePropsEqual(this.prevStateProps, mappedStateProps)) {
-          return this.state
-        }
-        this.prevStateProps = mappedStateProps
-
+      forgeState (mappedStateProps, ownProps) {
         return mergeProps(
           mappedStateProps,
           this.dispatchMapProps,
@@ -107,13 +102,23 @@ const ReduxletCreator = ({
 
         // Check states (Strict Equal by default)
         if (areStatesEqual(prevStoreState, newStoreState)) {
-          console.log('strict equal')
           return
         }
+
+        // Check stateProps (Shallow Equal by default)
+        const mappedStateProps = mapStateToProps(newStoreState)
+        if (areStatePropsEqual(this.prevStateProps, mappedStateProps)) {
+          return
+        }
+        this.prevStateProps = mappedStateProps
+
+        const newState = this.forgeState(newStoreState, this.props)
+        this.tryUpdate(newState)
+      }
+
+      tryUpdate (newState) {
         // Check mergedProps (Shallow Equal by default)
-        const newState = this.forgeState(this.props, newStoreState)
-        if (areMergedPropsEqual(this.state, this.newState)) {
-          console.log('shallow equal for merged props')
+        if (areMergedPropsEqual(this.state, newState)) {
           return
         }
 
