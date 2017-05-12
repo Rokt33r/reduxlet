@@ -8,7 +8,7 @@ import {
 import shallowEqual from 'react-redux/lib/utils/shallowEqual'
 
 const strictEqual = (a, b) => a === b
-// Don't compare, just return false always for not pure component
+// Don't compare, just return false always for a non-pure component
 const returnFalse = () => false
 
 const ReduxletCreator = ({

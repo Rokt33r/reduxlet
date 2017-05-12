@@ -2,7 +2,7 @@ import React from 'react'
 import reduxlet from '../src/reduxlet'
 import TestUtils from 'react-dom/test-utils'
 
-test('areOwnPropsEqual use shallow equal by default', () => {
+test('areOwnPropsEqual uses shallowEqual by default', () => {
   const Dummy = props => {
     props.onRender()
     return (
@@ -41,10 +41,8 @@ test('areOwnPropsEqual use shallow equal by default', () => {
     expect(onRender).toHaveBeenCalledTimes(expectedRenderCount)
   }
 
-  // Mount component should fire rendering
   const outer = TestUtils.renderIntoDocument(<Outer onRender={onRender} />)
   expectedRenderCount++
-  checkRenderCount()
 
   // It should rendered again if state changed
   outer.setState({number: 1})

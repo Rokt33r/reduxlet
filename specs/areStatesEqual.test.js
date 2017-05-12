@@ -4,7 +4,7 @@ import TestUtils from 'react-dom/test-utils'
 
 const returnFalse = () => false
 
-test('areStatesEqual use shallow equal by default', () => {
+test('areStatesEqual uses strictEqual by default', () => {
   const defaultState = {
     count: 0,
     data: {
@@ -63,7 +63,7 @@ test('areStatesEqual use shallow equal by default', () => {
     actions,
     reducer,
     options: {
-      // Prevent interceptions of next matcher
+      // Prevent rendering interception of next matchers
       areStatePropsEqual: returnFalse,
       areMergedPropsEqual: returnFalse
     }
@@ -75,22 +75,20 @@ test('areStatesEqual use shallow equal by default', () => {
     expect(onRender).toHaveBeenCalledTimes(expectedRenderCount)
   }
 
-  // Mount component should fire rendering
   const container = TestUtils.renderIntoDocument(<Container onRender={onRender} />)
   expectedRenderCount++
-  checkRenderCount()
 
-  // Fire add
+  // Fire add (strict equal : false => should render)
   container.state.actions.add()
   expectedRenderCount++
   checkRenderCount()
   expect(container.state.count).toEqual(1)
 
-  // Do nothing (strict equal : true)
+  // Fire doNothing (strict equal : true => should NOT render)
   container.state.actions.doNothing()
   checkRenderCount()
 
-  // Just clone state, but not modify (strict equal : false)
+  // Fire cloneState (strict equal : false => should render)
   container.state.actions.cloneState()
   expectedRenderCount++
   checkRenderCount()
