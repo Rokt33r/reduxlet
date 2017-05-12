@@ -1,19 +1,10 @@
 import React from 'react'
 import reduxlet from '../src/reduxlet'
 import TestUtils from 'react-dom/test-utils'
+import shared from './shared'
 
 test('areOwnPropsEqual uses shallowEqual by default', () => {
-  const Dummy = props => {
-    props.onRender()
-    return (
-      <div>
-        <span>{props.count}</span>
-        <button onClick={props.onClick}>Button</button>
-      </div>
-    )
-  }
-
-  const Container = reduxlet()(Dummy)
+  const Container = reduxlet()(shared.DummyClassComponent)
 
   const Outer = class Outer extends React.PureComponent {
     state = {
@@ -26,11 +17,12 @@ test('areOwnPropsEqual uses shallowEqual by default', () => {
 
     render () {
       const { onRender } = this.props
-      const { number, obj } = this.state
+      const { number, data } = this.state
       return <Container
+        ref={container => (this.container = container)}
         onRender={onRender}
         number={number}
-        obj={obj}
+        data={data}
       />
     }
   }
@@ -48,10 +40,19 @@ test('areOwnPropsEqual uses shallowEqual by default', () => {
   outer.setState({number: 1})
   expectedRenderCount++
   checkRenderCount()
+  expect(outer.container.props.number).toEqual(1)
+  expect(outer.container.state.number).toEqual(1)
+  expect(outer.container.component.props.number).toEqual(1)
 
   outer.setState({data: {message: 'second', count: 1}})
   expectedRenderCount++
   checkRenderCount()
+  expect(outer.container.props.data.message).toEqual('second')
+  expect(outer.container.state.data.message).toEqual('second')
+  expect(outer.container.component.props.data.message).toEqual('second')
+  expect(outer.container.props.data.count).toEqual(1)
+  expect(outer.container.state.data.count).toEqual(1)
+  expect(outer.container.component.props.data.count).toEqual(1)
 
   // It should not rendered if state is not changed after get new props
   outer.setState({number: 1})

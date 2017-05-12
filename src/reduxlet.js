@@ -79,14 +79,16 @@ const ReduxletCreator = ({
       componentWillReceiveProps (nextProps) {
         // Check ownProps (Shallow Equal by default)
         if (areOwnPropsEqual(nextProps, this.props)) {
-          this.setState(this.forgeState(nextProps))
+          return
         }
+        this.setState(this.forgeState(nextProps, this.store.getState(), true))
       }
 
-      forgeState (ownProps, storeState) {
+      forgeState (ownProps, storeState, didOwnPropsChanged = false) {
         const mappedStateProps = mapStateToProps(storeState)
         // Check stateProps (Shallow Equal by default)
-        if (areStatePropsEqual(this.prevStateProps, mappedStateProps)) {
+        // If ownProps changed, merge props anyway
+        if (!didOwnPropsChanged && areStatePropsEqual(this.prevStateProps, mappedStateProps)) {
           return this.state
         }
         this.prevStateProps = mappedStateProps
@@ -120,6 +122,7 @@ const ReduxletCreator = ({
 
       render () {
         return <Component
+          ref={component => (this.component = component)}
           {...this.state}
         />
       }
