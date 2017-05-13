@@ -1,5 +1,5 @@
 import React from 'react'
-import reduxlet from '../src/reduxlet'
+import reduxlet from '../packages/reduxlet/src/reduxlet'
 
 const ADD = 'ADD'
 

@@ -1,40 +1,14 @@
 {
   "name": "reduxlet",
-  "version": "0.1.1",
-  "description": "A small container component with an isolated Redux store",
-  "main": "lib/reduxlet.js",
-  "module": "es/reduxlet.js",
-  "jsnext:main": "es/reduxlet.js",
+  "description": "A small container component with an isolated Redux store.",
   "scripts": {
     "start": "webpack-dev-server --config ./examples/webpack.config.js",
-    "build": "NODE_ENV=production rollup -c rollup.config.js",
-    "pretest": "npm run lint --quite",
-    "test": "jest --coverage",
-    "test:quick": "jest",
-    "test:watch": "jest --watch",
-    "lint": "standard",
-    "clean": "rm -Rf es lib dist",
-    "prepublish": "npm run test && npm run clean && npm run build --quite"
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "clean": "lerna run clean",
+    "lint": "standard && lerna run lint"
   },
-  "keywords": [
-    "react",
-    "redux",
-    "flux"
-  ],
-  "author": "Junyoung Choi <fluke8259@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Rokt33r/reduxlet.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Rokt33r/reduxlet/issues"
-  },
-  "license": "ISC",
-  "files": [
-    "dist/reduxlet.js",
-    "es/reduxlet.js",
-    "lib/reduxlet.js"
-  ],
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
@@ -44,43 +18,29 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "html-webpack-plugin": "^2.28.0",
-    "jest": "^20.0.1",
+    "lerna": "2.0.0-beta.38",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-saga": "^0.15.3",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
     "standard": "^10.0.2",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
   },
-  "peerDependencies": {
-    "react": "^15.0.0-0 || ^16.0.0-0",
-    "redux": "^3.0.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rokt33r/reduxlet.git"
   },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "transform": {
-      "^.+\\.js?$": "babel-jest"
-    },
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
-      }
-    }
+  "keywords": [
+    "react",
+    "redux",
+    "flux"
+  ],
+  "author": "Junyoung Choi <fluke8259@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rokt33r/reduxlet/issues"
   },
-  "standard": {
-    "parser": "babel-eslint",
-    "env": {
-      "browser": true,
-      "jest": true
-    }
-  }
+  "homepage": "https://github.com/Rokt33r/reduxlet#readme"
 }
