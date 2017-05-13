@@ -12,7 +12,7 @@ const strictEqual = (a, b) => a === b
 const returnFalse = () => false
 
 const ReduxletCreator = ({
-  defaultState = {},
+  defaultState,
   store,
   reducer = x => x,
   actions = {},

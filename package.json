@@ -7,6 +7,7 @@
   "jsnext:main": "es/index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./examples/webpack.config.js",
+    "build": "NODE_ENV=production rollup -c rollup.config.js",
     "pretest": "npm run lint --quite",
     "test": "jest --coverage",
     "test:quick": "jest",
@@ -35,14 +36,17 @@
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-saga": "^0.15.3",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "standard": "^10.0.2",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
   },
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0",
-    "redux": "^3.0.0",
-    "react-redux": "^5.0.0-0"
+    "redux": "^3.0.0"
   },
   "jest": {
     "testEnvironment": "jsdom",
