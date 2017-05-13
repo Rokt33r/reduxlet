@@ -64,11 +64,12 @@ const ReduxletCreator = ({
           )
           : store
 
-        this.dispatchMapProps = dispatchMapProps(::this.dispatch, actions)
+        this.dispatch = ::this.dispatch
+        this.onDispatch = ::this.onDispatch
+        this.dispatchMapProps = dispatchMapProps(this.dispatch, actions)
         const storeState = this.prevStoreState = this.store.getState()
         const mappedStateProps = this.prevStateProps = mapStateToProps(storeState)
         this.state = this.forgeState(mappedStateProps, props)
-        this.onDispatch = this.onDispatch.bind(this)
       }
 
       componentDidMount () {
