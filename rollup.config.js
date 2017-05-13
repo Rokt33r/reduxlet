@@ -19,8 +19,7 @@ export default {
   ],
   globals: {
     react: 'React',
-    redux: 'Redux',
-    shallowEqual: 'shallowEqual'
+    redux: 'Redux'
   },
   targets: [
     { dest: 'lib/reduxlet.js', format: 'cjs' },
