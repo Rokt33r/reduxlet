@@ -8,7 +8,7 @@ test('reduxlet should throw error', () => {
         areStatesEqual: 'Not a function'
       }
     })(shared.DummyClassComponent)
-  }).toThrow()
+  }).toThrow(/[redux]/)
 
   expect(() => {
     reduxlet({
@@ -16,7 +16,7 @@ test('reduxlet should throw error', () => {
         areOwnPropsEqual: 'Not a function'
       }
     })(shared.DummyClassComponent)
-  }).toThrow()
+  }).toThrow(/[redux]/)
 
   expect(() => {
     reduxlet({
@@ -24,7 +24,7 @@ test('reduxlet should throw error', () => {
         areStatePropsEqual: 'Not a function'
       }
     })(shared.DummyClassComponent)
-  }).toThrow()
+  }).toThrow(/[redux]/)
 
   expect(() => {
     reduxlet({
@@ -32,5 +32,5 @@ test('reduxlet should throw error', () => {
         areMergedPropsEqual: 'Not a function'
       }
     })(shared.DummyClassComponent)
-  }).toThrow()
+  }).toThrow(/[redux]/)
 })

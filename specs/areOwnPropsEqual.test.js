@@ -3,10 +3,16 @@ import reduxlet from '../src/reduxlet'
 import TestUtils from 'react-dom/test-utils'
 import shared from './shared'
 
-test('areOwnPropsEqual uses shallowEqual by default', () => {
-  const Container = reduxlet()(shared.DummyClassComponent)
+const strictEqual = (a, b) => a === b
 
-  const Outer = class Outer extends React.PureComponent {
+test('areOwnPropsEqual uses shallowEqual by default', () => {
+  const Container = reduxlet({
+    options: {
+      areMergedPropsEqual: strictEqual
+    }
+  })(shared.DummyClassComponent)
+
+  const Outer = class Outer extends React.Component {
     state = {
       number: 0,
       data: {

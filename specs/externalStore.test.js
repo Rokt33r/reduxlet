@@ -2,14 +2,12 @@ import React from 'react'
 import reduxlet from '../src/reduxlet'
 import TestUtils from 'react-dom/test-utils'
 import shared from './shared'
+import { createStore } from 'redux'
 
 test('basic behaviour of reduxlet', () => {
+  const store = createStore(shared.reducer, shared.defaultState)
   const Container = reduxlet({
-    defaultState: shared.defaultState,
-    actions: shared.actions,
-    reducer: shared.reducer,
-    middlewares: [],
-    enhancers: []
+    store
   })(shared.DummyClassComponent)
 
   let expectedRenderCount = 0
@@ -22,22 +20,23 @@ test('basic behaviour of reduxlet', () => {
   expectedRenderCount++
 
   // Fire add (strict equal : false => should render)
-  container.state.actions.add()
+  store.dispatch(shared.actions.add())
   expectedRenderCount++
   checkRenderCount()
+  expect(store.getState().count).toEqual(1)
   expect(container.state.count).toEqual(1)
   expect(container.component.props.count).toEqual(1)
 
   // Fire doNothing (No changes => should NOT render)
-  container.state.actions.doNothing()
+  store.dispatch(shared.actions.doNothing())
   checkRenderCount()
 
   // Fire cloneState (No changes => should NOT render)
-  container.state.actions.cloneState()
+  store.dispatch(shared.actions.cloneState())
   checkRenderCount()
 
   // Fire updateMessage (data.message changed => should render)
-  container.state.actions.updateMessage('second')
+  store.dispatch(shared.actions.updateMessage('second'))
   expectedRenderCount++
   checkRenderCount()
   expect(container.state.data.message).toEqual('second')
