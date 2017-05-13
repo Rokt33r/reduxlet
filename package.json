@@ -1,10 +1,10 @@
 {
   "name": "reduxlet",
   "version": "0.1.0",
-  "description": "",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "jsnext:main": "es/index.js",
+  "description": "A small container component with an isolated Redux store",
+  "main": "lib/reduxlet.js",
+  "module": "es/reduxlet.js",
+  "jsnext:main": "es/reduxlet.js",
   "scripts": {
     "start": "webpack-dev-server --config ./examples/webpack.config.js",
     "build": "NODE_ENV=production rollup -c rollup.config.js",
@@ -12,7 +12,9 @@
     "test": "jest --coverage",
     "test:quick": "jest",
     "test:watch": "jest --watch",
-    "lint": "standard"
+    "lint": "standard",
+    "clean": "rm -Rf es lib dist",
+    "prepublish": "npm run test && npm run clean && npm run build --quite"
   },
   "keywords": [
     "react",
@@ -21,6 +23,11 @@
   ],
   "author": "Junyoung Choi <fluke8259@gmail.com>",
   "license": "ISC",
+  "files": [
+    "dist/reduxlet.js",
+    "es/reduxlet.js",
+    "lib/reduxlet.js"
+  ],
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
