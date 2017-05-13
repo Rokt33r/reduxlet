@@ -1,6 +1,6 @@
 # Reduxlet
 
-A small container component with an isolated Redux store
+A small container component with an isolated Redux store.
 
 ## Intro
 
@@ -13,11 +13,13 @@ Also, lots of sugar is inside by default. Binding actions to dispatch, composing
 
 ## Usage
 
-Install via npm
+Install via npm.
 
 ```sh
 npm install reduxlet
 ```
+
+MyContainer.jsx
 
 ```jsx
 import React from 'redux'
@@ -67,7 +69,7 @@ class MyComponent () {
   }
 }
 
-reduxlet({
+export default reduxlet({
   actions,
   reducer,
   middlewares,
@@ -79,15 +81,18 @@ reduxlet({
 
 For further information, please check `examples` and `specs`.
 
-## Contribution
-
-I'm not good at English. If you find some weired expression or typos, feel free to create an issue.
-
 ## API
 
 ### `reduxlet(params: ReduxletParams)(TargetComponent)`
 
 All params are optional. Follow your own taste!
+
+#### Inherent params
+
+- `params.didMount` : A function, `store => {}`, to run after the component mount. This is good place to dispatch some initial actions.
+- `params.willUnmount` : A function, `store => {}`, to run before the component unmount. Similar to `params.didMount`, you can tear down some thing before lose the instance of store.
+- `params.devtool` : Connect the inner store to [redux-devtool](https://github.com/zalmoxisus/redux-devtools-extension).
+**Redux Devtool can communicate only one store. So, if you trying to connect multiple stores, devtool shows only the last connected one**
 
 #### Redux part
 
@@ -106,16 +111,15 @@ Almost same to [connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [
 - `params.dispatchMapProps` : Same to `dispatchMapProps` argument of `connect`. It doesn't only pass `dispatch`, also pass `actions` bound by `bindActionCreators` (default: dispatch => ({...boundActions, dispatch}))
 - `params.mergeProps` : Same to `mergeProps` argument of `connect`. (default: state => state)
 - `params.options` : Same to `options` argument of `connect`.
-  - `params.options.pure` : It prevent If this set false, always render every dispatch and props change. (default: true)
-  - `params.options.areStatesEqual` : If true, use strict equal by default
-  - `params.options.areOwnPropsEqual` : Use strict equal by default
-  - `params.options.areStatePropsEqual` : Use strict equal by default
-  - `params.options.areMergedPropsEqual` : Use strict equal by default
+  - `params.options.pure` : If this set false, always render every dispatch and props change. So, it will ignore other options too. (default: true)
+  - `params.options.areStatesEqual` : Use `strictEqual` by default
+  - `params.options.areOwnPropsEqual` : Use `shallowEqual` by default
+  - `params.options.areStatePropsEqual` : Use `shallowEqual` by default
+  - `params.options.areMergedPropsEqual` : Use `shallowEqual` by default
 
-#### Miscellaneous
+## Contribution
 
-- `params.devtool` : Connect the inner store to redux-devtool.
-**Redux Devtool can communicate only one store. So, if you trying to connect multiple stores, devtool shows only the last connected one**
+I'm not good at English. If you find some weired expression or typos, feel free to create an issue.
 
 ## License
 

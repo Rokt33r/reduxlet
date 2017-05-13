@@ -14,7 +14,7 @@ const returnFalse = () => false
 const ReduxletCreator = ({
   defaultState,
   store,
-  reducer = x => x,
+  reducer = state => state,
   actions = {},
   mapStateToProps = state => state,
   dispatchMapProps = (dispatch, actions) => ({
