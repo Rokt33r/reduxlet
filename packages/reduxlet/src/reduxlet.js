@@ -22,8 +22,8 @@ const ReduxletCreator = ({
     actions: bindActionCreators(actions, dispatch)
   }),
   mergeProps = (stateProps, dispatchProps, ownProps) => ({...stateProps, ...dispatchProps, ...ownProps}),
-  enhancers = [],
-  middlewares = [],
+  createEnhancers = () => [],
+  createMiddlewares = () => [],
   didMount = store => {},
   willUnmount = store => {},
   options = {},
@@ -58,8 +58,10 @@ const ReduxletCreator = ({
             reducer,
             defaultState,
             compose(
-              ...enhancers,
-              applyMiddleware(...middlewares)
+              ...createEnhancers(),
+              applyMiddleware(
+                ...createMiddlewares()
+              )
             )
           )
           : store

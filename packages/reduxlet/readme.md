@@ -79,40 +79,40 @@ export default reduxlet({
 
 `actions` will be bound to dispatch. But, if you want, you can define your own `mapDispatchToProps`. Check API!
 
-For further information, please check `examples` and `specs`.
+For further information, please check `/examples` and `/packages/reduxlet/specs`.
 
 ## API
 
-### `reduxlet(params: ReduxletParams)(TargetComponent)`
+### `reduxlet(params: ReduxletParams)(ReactComponent)`
 
 All params are optional. Follow your own taste!
 
 #### Inherent params
 
 - `params.didMount` : A function, `store => {}`, to run after the component mount. This is good place to dispatch some initial actions.
-- `params.willUnmount` : A function, `store => {}`, to run before the component unmount. Similar to `params.didMount`, you can tear down some thing before lose the instance of store.
+- `params.willUnmount` : A function, `store => {}`, to run before the component unmounting. Similar to `params.didMount`, this is good place to clean up some stuff to prevent memory leak.
 - `params.devtool` : Connect the inner store to [redux-devtool](https://github.com/zalmoxisus/redux-devtools-extension).
 **Redux Devtool can communicate only one store. So, if you trying to connect multiple stores, devtool shows only the last connected one**
 
 #### Redux part
 
-- `params.defaultState` : defaultState of redux store (if you provide default value to reducer, you don't need it)
-- `params.reducer` : A reducer for internal redux store. you can use `combineReducer`. (default: `state=> state`)
-- `params.actions` : Action creators which return action object. Reduxlet will bind these creators to the dispatch method.
-- `params.middleware` : Middlewares. Reduxlet will apply these.
-- `params.enhancers` : Enhancers. Reduxlet will composes these with applied middlewares.
-- `params.store` : External redux store. If you provide this, `params.defaultState`, `params.reducer`, `params.middleware` and `params.enhancers` are ignored.   Almost same to `connect` of react-redux. The only difference is it doesn't access the store by `context`.
+- `params.defaultState` : a default state of the internal redux store (if you provide default value to reducer, you don't need it)
+- `params.reducer` : A reducer for the internal redux store, `(state, action) => newState`. you can use `combineReducer`. (default: `state=> state`)
+- `params.actions` : Action creators which return action object, `{[actionName: string]: () => Action}`. Reduxlet will bind these creators to the dispatch method.
+- `params.createMiddlewares` : Create middlewares for redux store, `() => [...middlewares]`. Reduxlet will apply these.
+- `params.createEnhancers` : Create enhancers, `() => [...enhancers]`. Reduxlet will compose these with applied middlewares.
+- `params.store` : External redux store. If you provide this, `params.defaultState`, `params.reducer`, `params.middleware` and `params.enhancers` are ignored. Almost same to `connect` of react-redux. The only difference is you have pass store directly to reduxlet, not via context.
 
 #### React Redux part
 
-Almost same to [connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options). I recommend you to check this link!
+Almost same to [connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options). I recommend you to check this link too!
 
-- `params.mapStateToProps` : Same to `mapStateToProps` argument of `connect`. (default: state => state)
-- `params.dispatchMapProps` : Same to `dispatchMapProps` argument of `connect`. It doesn't only pass `dispatch`, also pass `actions` bound by `bindActionCreators` (default: dispatch => ({...boundActions, dispatch}))
-- `params.mergeProps` : Same to `mergeProps` argument of `connect`. (default: state => state)
+- `params.mapStateToProps` : Same to `mapStateToProps` argument of `connect`, `storeState => stateProps`. (default: state => state)
+- `params.dispatchMapProps` : Same to `dispatchMapProps` argument of `connect`, `dispatch => boundActions`. It doesn't only pass `dispatch`, also pass `actions` bound by `bindActionCreators` (default: dispatch => ({...boundActions, dispatch}))
+- `params.mergeProps` : Same to `mergeProps` argument of `connect`, `(stateProps, boundActions, ownProps) => mergedProps`. (default: state => state)
 - `params.options` : Same to `options` argument of `connect`.
-  - `params.options.pure` : If this set false, always render every dispatch and props change. So, it will ignore other options too. (default: true)
-  - `params.options.areStatesEqual` : Use `strictEqual` by default
+  - `params.options.pure` : `boolean`. If this set false, always render every dispatch and props change. So, it will ignore other options too. (default: true)
+  - `params.options.areStatesEqual` : Use `strictEqual(===)` by default
   - `params.options.areOwnPropsEqual` : Use `shallowEqual` by default
   - `params.options.areStatePropsEqual` : Use `shallowEqual` by default
   - `params.options.areMergedPropsEqual` : Use `shallowEqual` by default

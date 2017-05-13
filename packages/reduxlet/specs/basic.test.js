@@ -5,25 +5,25 @@ import shared from './shared'
 
 test('basic behaviour of reduxlet', () => {
   const enhancerMock = jest.fn()
-  const enhancer = createStore => (reducer, preloadedState) => {
+  const createEnhancers = () => [createStore => (reducer, preloadedState) => {
     enhancerMock(reducer, preloadedState)
     return {
       ...createStore(reducer, preloadedState)
     }
-  }
+  }]
 
   const middlewareMock = jest.fn()
-  const middleware = middleWareAPI => next => action => {
+  const createMiddlewares = () => [middleWareAPI => next => action => {
     middlewareMock(action)
     return next(action)
-  }
+  }]
 
   const Container = reduxlet({
     defaultState: shared.defaultState,
     actions: shared.actions,
     reducer: shared.reducer,
-    middlewares: [middleware],
-    enhancers: [enhancer]
+    createMiddlewares,
+    createEnhancers
   })(shared.DummyClassComponent)
 
   let expectedRenderCount = 0

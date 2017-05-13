@@ -37,10 +37,17 @@
     "redux",
     "flux"
   ],
-  "author": "Junyoung Choi <fluke8259@gmail.com>",
+  "author": "Junyoung Choi <fluke8259@gmail.com> (https://rokt33r.github.io)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Rokt33r/reduxlet/issues"
   },
-  "homepage": "https://github.com/Rokt33r/reduxlet#readme"
+  "homepage": "https://github.com/Rokt33r/reduxlet#readme",
+  "standard": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "jest": true
+    }
+  }
 }
