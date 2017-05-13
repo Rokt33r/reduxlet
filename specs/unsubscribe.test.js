@@ -37,11 +37,11 @@ test('areOwnPropsEqual uses shallowEqual by default', () => {
 
   const outer = TestUtils.renderIntoDocument(<Outer onRender={onRender} />)
 
-  // Check if subscribe
+  // Check if subscribed
   expect(subscribe).toHaveBeenCalled()
   expect(unsubscribe).not.toHaveBeenCalled()
 
   outer.setState({shouldContainerShow: false})
-  // Check if unsubscribe after unmounted
+  // Check if unsubscribed after unmounted
   expect(unsubscribe).toHaveBeenCalled()
 })

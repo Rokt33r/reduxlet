@@ -3,7 +3,7 @@ import reduxlet from '../src/reduxlet'
 import TestUtils from 'react-dom/test-utils'
 import shared from './shared'
 
-test('if not pure, always try to re-render', () => {
+test('if reduxlet is not pure, always try to re-render', () => {
   const Container = reduxlet({
     defaultState: shared.defaultState,
     actions: shared.actions,
@@ -22,19 +22,19 @@ test('if not pure, always try to re-render', () => {
   const container = TestUtils.renderIntoDocument(<Container onRender={onRender} />)
   expectedRenderCount++
 
-  // Fire add (strict equal : false => should render)
+  // Dispatch add (notPure => always rerender)
   container.state.actions.add()
   expectedRenderCount++
   checkRenderCount()
   expect(container.state.count).toEqual(1)
   expect(container.component.props.count).toEqual(1)
 
-  // Fire doNothing
+  // Dispatch doNothing (notPure => always rerender)
   container.state.actions.doNothing()
   expectedRenderCount++
   checkRenderCount()
 
-  // Fire cloneState
+  // Dispatch cloneState (notPure => always rerender)
   container.state.actions.cloneState()
   expectedRenderCount++
   checkRenderCount()
