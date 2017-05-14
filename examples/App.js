@@ -1,12 +1,15 @@
 import React from 'react'
-import reduxlet from '../packages/reduxlet/src/reduxlet'
+import reduxletSaga from '../packages/reduxlet-saga/src/reduxlet-saga'
+import { delay } from 'redux-saga'
+import { take, put } from 'redux-saga/effects'
 
 const ADD = 'ADD'
+const REQUEST_ADD = 'REQUEST_ADD'
+const CANCEL = 'CANCEL'
 
 const reducer = (state = {count: 0}, action) => {
   switch (action.type) {
     case ADD:
-      console.log(state)
       return {
         count: state.count + 1
       }
@@ -15,28 +18,42 @@ const reducer = (state = {count: 0}, action) => {
 }
 
 const actions = {
-  add: () => ({type: ADD})
+  add: () => ({type: ADD}),
+  requestAdd: () => ({type: REQUEST_ADD}),
+  cancel: () => ({type: CANCEL})
 }
 
-const ReduxLetContainer = reduxlet({
-  reducer,
-  actions
-})(class ReduxLetContainer extends React.PureComponent {
+const saga = function * () {
+  while (true) {
+    yield take(REQUEST_ADD)
+    yield delay(1500)
+    yield put(actions.add())
+  }
+}
+
+class Component extends React.PureComponent {
   render () {
     const { actions, count } = this.props
 
     return <div>
-      <button onClick={actions.add}>Hi {count}</button>
+      <span>{count}</span>
+      <button onClick={actions.add}>Add Now!</button>
+      <button onClick={actions.requestAdd}>Add 1.5 secs later!</button>
     </div>
   }
-})
+}
+
+const ReduxletComponent = reduxletSaga({
+  reducer,
+  actions,
+  saga
+})(Component)
 
 class App extends React.PureComponent {
   render () {
     return <div>
-      <ReduxLetContainer />
-      <ReduxLetContainer />
-
+      <ReduxletComponent />
+      <ReduxletComponent />
     </div>
   }
 }

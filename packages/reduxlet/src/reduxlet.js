@@ -58,9 +58,9 @@ const ReduxletCreator = ({
             reducer,
             defaultState,
             compose(
-              ...createEnhancers(),
+              ...createEnhancers.call(this),
               applyMiddleware(
-                ...createMiddlewares()
+                ...createMiddlewares.call(this)
               )
             )
           )

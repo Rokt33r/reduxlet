@@ -13,7 +13,22 @@ module.exports = {
     rules: [
       {
         test: /\.jsx|\.js?$/,
-        use: [ 'babel-loader' ],
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['es2015', {'modules': false}],
+              'react',
+              'stage-0'
+            ],
+            plugins: [
+              ['transform-runtime', {
+                'polyfill': false,
+                'regenerator': true
+              }]
+            ]
+          }
+        }],
         exclude: /node_modules/
       }
     ]

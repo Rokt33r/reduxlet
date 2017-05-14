@@ -89,8 +89,8 @@ All params are optional. Follow your own taste!
 
 #### Inherent params
 
-- `params.didMount` : A function, `store => {}`, to run after the component mount. This is good place to dispatch some initial actions.
-- `params.willUnmount` : A function, `store => {}`, to run before the component unmounting. Similar to `params.didMount`, this is good place to clean up some stuff to prevent memory leak.
+- `params.didMount` : A function to execute after component mounting, `store => {}`. This is good place to dispatch some initial actions. Reduxlet Saga also use this for run saga.
+- `params.willUnmount` : A function to execute before component unmounting, `store => {}`. Similar to `params.didMount`, this is good place to clean up some stuff to prevent memory leak. Reduxlet Saga also uses this for cancel running saga tasks.
 - `params.devtool` : Connect the inner store to [redux-devtool](https://github.com/zalmoxisus/redux-devtools-extension).
 **Redux Devtool can communicate only one store. So, if you trying to connect multiple stores, devtool shows only the last connected one**
 
@@ -99,9 +99,60 @@ All params are optional. Follow your own taste!
 - `params.defaultState` : a default state of the internal redux store (if you provide default value to reducer, you don't need it)
 - `params.reducer` : A reducer for the internal redux store, `(state, action) => newState`. you can use `combineReducer`. (default: `state=> state`)
 - `params.actions` : Action creators which return action object, `{[actionName: string]: () => Action}`. Reduxlet will bind these creators to the dispatch method.
-- `params.createMiddlewares` : Create middlewares for redux store, `() => [...middlewares]`. Reduxlet will apply these.
-- `params.createEnhancers` : Create enhancers, `() => [...enhancers]`. Reduxlet will compose these with applied middlewares.
-- `params.store` : External redux store. If you provide this, `params.defaultState`, `params.reducer`, `params.middleware` and `params.enhancers` are ignored. Almost same to `connect` of react-redux. The only difference is you have pass store directly to reduxlet, not via context.
+- `params.createMiddlewares` : Create middlewares for redux store, `() => [...middlewares]`. Reduxlet will apply these. I explain the reason why we cannot provide the middleware instances directly.
+- `params.createEnhancers` : Create enhancers, `() => [...enhancers]`. Reduxlet will compose these with applied middlewares. As the same reason, we should pass enhancers by a functino.
+- `params.store` : External redux store. If you provide this, `params.defaultState`, `params.reducer`, `params.createMiddlewares` and `params.createEnhancers` are ignored. Almost same to `connect` of react-redux. The only difference is you have pass store directly to reduxlet, not via context.
+
+##### Why we should pass enhancers and middlewares by a function instead of pass directly the instances
+
+Some plugins for redux are designed to use a single store. So, we could do like the below example.
+
+```js
+import createSagaMiddleware from 'redux-saga'
+import reduxlet from 'reduxlet-saga'
+
+// Define middlewares
+const middlewares = [createSagaMiddleware()]
+
+// Create ReduxletComponent class
+const ReduxletComponent = reduxlet({
+  middlewares
+})(Component)
+```
+
+Now, all instances of this component share a single saga middleware, although each of them has their own isolated store. Like this way, we CAN NOT create a middleware for each instance.
+
+But, if we provide a function, creating middleware, we can excecute the function and create middleware for each instance like below.
+
+```js
+import createSagaMiddleware from 'redux-saga'
+import reduxlet from 'reduxlet-saga'
+
+// Define middleware creator
+const createMiddlewares = () => [createSagaMiddleware()]
+
+const ReduxletComponent = reduxlet({
+  createMiddlewares
+})(Component)
+```
+
+If we intentionally want to provide a shared single middleware, we also can do.
+
+```js
+import createSagaMiddleware from 'redux-saga'
+import reduxlet from 'reduxlet-saga'
+
+// This middleware will be shared among every instance of our component
+const sharedMiddleware = createSagaMiddleware()
+
+// Define middlewares
+const createMiddlewares = () => [sharedMiddleware]
+
+// Create ReduxletComponent class
+const ReduxletComponent = reduxlet({
+  createMiddlewares
+})(Component)
+```
 
 #### React Redux part
 

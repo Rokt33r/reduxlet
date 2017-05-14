@@ -1,17 +1,40 @@
 import React from 'react'
-import reduxlet from '../src/reduxlet'
+import reduxletSaga from '../src/reduxlet-saga'
 import TestUtils from 'react-dom/test-utils'
 import shared from './shared'
-import { createStore } from 'redux'
+import { take, put, call } from 'redux-saga/effects'
 
-test('didMount and willUnmount params', () => {
-  const store = createStore(shared.reducer, shared.defaultState)
+test('task cancellation when component unmounting', () => {
+  const delay = () => new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, 10000)
+  })
+
+  const finishTask = jest.fn()
+
+  const saga = function * () {
+    try {
+      while (true) {
+        yield take(shared.actionTypes.REQUEST_ADD)
+        yield call(delay)
+        yield put(shared.actions.add())
+      }
+    } finally {
+      // if task cancelled, execute finishTask
+      finishTask()
+    }
+  }
+
   const didMount = jest.fn()
   const willUnmount = jest.fn()
-  const Container = reduxlet({
-    store,
+  const Container = reduxletSaga({
+    defaultState: shared.defaultState,
+    actions: shared.actions,
+    reducer: shared.reducer,
     didMount,
-    willUnmount
+    willUnmount,
+    saga
   })(shared.DummyClassComponent)
 
   const Outer = class Outer extends React.PureComponent {
@@ -45,11 +68,14 @@ test('didMount and willUnmount params', () => {
   expectedRenderCount++
   checkRenderCount()
   // Check if didMount executed
-  expect(didMount).toHaveBeenCalledWith(store)
-  // But, willMount is not executed yet.
+  expect(didMount).toHaveBeenCalled()
+  // But, willMount is not executed yet
   expect(willUnmount).not.toHaveBeenCalled()
 
   outer.setState({shouldContainerShow: false})
-  // Now, it should be unmounted
-  expect(willUnmount).toHaveBeenCalledWith(store)
+  // Now, it unmounts
+  expect(willUnmount).toHaveBeenCalled()
+
+  // Also, the saga task is finished after unmounting
+  expect(finishTask).toHaveBeenCalled()
 })

@@ -15,4 +15,5 @@ Also, lots of sugar is inside by default. Binding actions to dispatch, composing
 
 This is a monorepo. To find more information, please check the following links!
 
-- [reduxlet](packages/reduxlet/readme.md) : Core Library
+- [Reduxlet](packages/reduxlet/readme.md) : Reduxlet core library.
+- [Reduxlet Saga](packages/reduxlet-saga/readme.md) : Reduxlet with Redux Saga support. This is a superset of [Reduxlet](packages/reduxlet/readme.md) core library.
