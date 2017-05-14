@@ -1,5 +1,7 @@
 # Reduxlet
 
+[![Build Status](https://travis-ci.org/Rokt33r/reduxlet.svg?branch=master)](https://travis-ci.org/Rokt33r/reduxlet)
+
 A small container component with an isolated Redux store.
 
 ## Intro
