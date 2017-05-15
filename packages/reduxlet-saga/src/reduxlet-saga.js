@@ -17,7 +17,7 @@ const ReduxletSagaCreator = (params = {
     }
 
     params.didMount = function (store) {
-      if (saga != null) this.sagaTask = this.sagaMiddleware.run(saga)
+      if (saga != null && this.sagaMiddleware != null) this.sagaTask = this.sagaMiddleware.run(saga)
       if (didMount != null) didMount(store)
     }
 

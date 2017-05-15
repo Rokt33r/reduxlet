@@ -18,6 +18,10 @@ npm install reduxlet-saga
 
 Other params are explained by Reduxlet document. Check the following link! [ReduxletParams](https://github.com/Rokt33r/reduxlet/blob/master/packages/reduxlet/readme.md#reduxletparams-reduxletparamstargetcomponent)
 
+#### About external store
+
+Reduxlet Saga doesn't support external saga. `params.saga` will be ignored if you provide external store.
+
 ## Contribution
 
 I'm not good at English. If you find some weired expression or typos, feel free to create an issue.
