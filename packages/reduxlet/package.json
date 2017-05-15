@@ -1,6 +1,6 @@
 {
   "name": "reduxlet",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A small container component with an isolated Redux store",
   "main": "lib/reduxlet.js",
   "module": "es/reduxlet.js",

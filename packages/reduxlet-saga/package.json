@@ -1,6 +1,6 @@
 {
   "name": "reduxlet-saga",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Reduxlet with Redux Saga support",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "reduxlet": "~0.2.0"
+    "reduxlet": "^0.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
