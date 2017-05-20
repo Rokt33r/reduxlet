@@ -2,7 +2,9 @@
   "name": "reduxlet-saga",
   "version": "0.2.1",
   "description": "Reduxlet with Redux Saga support",
-  "main": "index.js",
+  "main": "lib/reduxlet-saga.js",
+  "module": "es/reduxlet-saga.js",
+  "jsnext:main": "es/reduxlet-saga.js",
   "scripts": {
     "build": "NODE_ENV=production rollup -c rollup.config.js",
     "pretest": "npm run lint --quite",
