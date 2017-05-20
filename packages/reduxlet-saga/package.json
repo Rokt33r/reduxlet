@@ -28,6 +28,11 @@
     "url": "https://github.com/Rokt33r/reduxlet/issues"
   },
   "license": "ISC",
+  "files": [
+    "dist/reduxlet-saga.js",
+    "es/reduxlet-saga.js",
+    "lib/reduxlet-saga.js"
+  ],
   "dependencies": {
     "reduxlet": "^0.2.1"
   },
