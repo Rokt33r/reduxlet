@@ -1,6 +1,6 @@
 {
   "name": "reduxlet-saga",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Reduxlet with Redux Saga support",
   "main": "index.js",
   "scripts": {
