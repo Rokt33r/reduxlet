@@ -13,6 +13,15 @@ Let's use `actions` and `reducer` instead of using `this.setState`!
 
 Also, lots of sugar is inside by default. Binding actions to dispatch, composing enhancers and applying middleware become much easier!
 
+## Who needs Reduxlet?
+
+Who want to make a **VERY POWERFUL** component.
+
+- Who needs **very strict state control**
+- Who needs **saga** for a React Component
+
+![Reduxlet in the real world](./resources/reduxlet-realworld.gif)
+
 ## Packages
 
 This is a monorepo. To find more information, please check the following links!
