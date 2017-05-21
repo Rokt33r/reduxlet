@@ -24,8 +24,8 @@ Who want to make a **VERY POWERFUL** component.
 
 ![Reduxlet in real world](./resources/reduxlet-realworld.gif)
 
-[NewGroupFormContainer](https://github.com/CarbonStack/carbonstack/blob/master/components/newGroup/NewGroupFormContainer.js)
-[NewGroupForm](https://github.com/CarbonStack/carbonstack/blob/master/components/newGroup/NewGroupForm.js)
+- [NewGroupFormContainer (source code)](https://github.com/CarbonStack/carbonstack/blob/master/components/newGroup/NewGroupFormContainer.js)
+- [NewGroupForm (source code)](https://github.com/CarbonStack/carbonstack/blob/master/components/newGroup/NewGroupForm.js)
 
 ## Packages
 
