@@ -20,7 +20,12 @@ Who want to make a **VERY POWERFUL** component.
 - Who needs **very strict state control**
 - Who needs **saga** for a React Component
 
-![Reduxlet in the real world](./resources/reduxlet-realworld.gif)
+## Reduxlet in real world
+
+![Reduxlet in real world](./resources/reduxlet-realworld.gif)
+
+[NewGroupFormContainer](https://github.com/CarbonStack/carbonstack/blob/master/components/newGroup/NewGroupFormContainer.js)
+[NewGroupForm](https://github.com/CarbonStack/carbonstack/blob/master/components/newGroup/NewGroupForm.js)
 
 ## Packages
 
