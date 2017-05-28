@@ -24,8 +24,8 @@ const ReduxletCreator = ({
   mergeProps = (stateProps, dispatchProps, ownProps) => ({...stateProps, ...dispatchProps, ...ownProps}),
   createEnhancers = () => [],
   createMiddlewares = () => [],
-  didMount = store => {},
-  willUnmount = store => {},
+  didMount,
+  willUnmount,
   options = {},
   devtool = false
 } = {}) => {
@@ -53,10 +53,14 @@ const ReduxletCreator = ({
     class ReduxletWrapper extends React.Component {
       constructor (props) {
         super(props)
+        const resolvedDefaultState = typeof defaultState === 'function'
+          ? defaultState(props)
+          : defaultState
+
         this.store = store == null
           ? createStore(
             reducer,
-            defaultState,
+            resolvedDefaultState,
             compose(
               ...createEnhancers.call(this),
               applyMiddleware(
@@ -76,12 +80,12 @@ const ReduxletCreator = ({
 
       componentDidMount () {
         this.unsubscribe = this.store.subscribe(this.onDispatch)
-        didMount.call(this, this.store)
+        if (didMount != null) didMount.call(this, this.store, this.props)
       }
 
       componentWillUnmount () {
         this.unsubscribe()
-        willUnmount.call(this, this.store)
+        if (willUnmount != null) willUnmount.call(this, this.store, this.props)
       }
 
       shouldComponentUpdate (nextProps, nextState) {

@@ -45,11 +45,11 @@ test('didMount and willUnmount params', () => {
   expectedRenderCount++
   checkRenderCount()
   // Check if didMount executed
-  expect(didMount).toHaveBeenCalledWith(store)
+  expect(didMount).toHaveBeenCalledWith(store, {onRender})
   // But, willMount is not executed yet.
   expect(willUnmount).not.toHaveBeenCalled()
 
   outer.setState({shouldContainerShow: false})
   // Now, it should be unmounted
-  expect(willUnmount).toHaveBeenCalledWith(store)
+  expect(willUnmount).toHaveBeenCalledWith(store, {onRender})
 })

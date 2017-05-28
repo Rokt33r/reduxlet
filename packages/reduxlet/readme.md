@@ -89,15 +89,15 @@ All params are optional. Follow your own taste!
 
 #### Inherent params
 
-- `params.didMount` : A function to execute after component mounting, `store => {}`. This is good place to dispatch some initial actions. Reduxlet Saga also use this for run saga.
-- `params.willUnmount` : A function to execute before component unmounting, `store => {}`. Similar to `params.didMount`, this is good place to clean up some stuff to prevent memory leak. Reduxlet Saga also uses this for cancel running saga tasks.
+- `params.didMount` : A function to execute after component mounting, `(store, ownProps) => {}`. This is good place to dispatch some initial actions. Reduxlet Saga also use this for run saga.
+- `params.willUnmount` : A function to execute before component unmounting, `(store, ownProps) => {}`. Similar to `params.didMount`, this is good place to clean up some stuff to prevent memory leak. Reduxlet Saga also uses this for cancel running saga tasks.
 - `params.devtool` : Connect the inner store to [redux-devtool](https://github.com/zalmoxisus/redux-devtools-extension).
 **Redux Devtool can communicate only one store. So, if you trying to connect multiple stores, devtool shows only the last connected one**
 
 #### Redux part
 
-- `params.defaultState` : a default state of the internal redux store (if you provide default value to reducer, you don't need it)
-- `params.reducer` : A reducer for the internal redux store, `(state, action) => newState`. you can use `combineReducer`. (default: `state=> state`)
+- `params.defaultState` : a default state of the internal redux store. If you give a function, reduxlet will use its returned value. (`state | ownProps => state`) if you provide default value to reducer, you don't need it.
+- `params.reducer` : A reducer for the internal redux store, `(state, action) => newState`. you can use `combineReducer`. (default: `state => state`)
 - `params.actions` : Action creators which return action object, `{[actionName: string]: () => Action}`. Reduxlet will bind these creators to the dispatch method.
 - `params.createMiddlewares` : Create middlewares for redux store, `() => [...middlewares]`. Reduxlet will apply these. I explain the reason why we cannot provide the middleware instances directly.
 - `params.createEnhancers` : Create enhancers, `() => [...enhancers]`. Reduxlet will compose these with applied middlewares. As the same reason, we should pass enhancers by a functino.
